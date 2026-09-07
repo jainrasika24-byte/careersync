@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}CareerSync — Overview & Platform Mission{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <div class="hero-tag">✨ AI-POWERED STUDENT CAREER PLATFORM</div>
+    <h1 class="hero-title">Meet CareerSync</h1>
+    <p class="hero-subtitle">
+        A centralized platform to organize, track, and improve a student's career journey for target roles.
+    </p>
+
+    <!-- TEAM & GUIDANCE CREDITS -->
+    <div class="team-credits-card">
+        <span>👨‍💻 <strong>Team:</strong> Rasika Chinchalkar · Payal Koyare</span>
+        <span>|</span>
+        <span>👩‍🏫 <strong>Guided By:</strong> Prof. Mrunali Jadhav</span>
+        <span>|</span>
+        <span>🏫 <strong>TGPCET NAGPUR</strong></span>
+    </div>
+
+    <div class="hero-cta-group">
+        <a href="{{ url_for('dashboard') }}" class="btn-primary">
+            <span>📊 Open Dashboard</span>
+            <span>&rarr;</span>
+        </a>
+        <a href="{{ url_for('skills') }}" class="btn-secondary">
+            <span>⚡ Check Skill Gaps</span>
+        </a>
+        <a href="{{ url_for('resume') }}" class="btn-secondary btn-cyan">
+            <span>📄 ATS Resume Studio</span>
+        </a>
+    </div>
+</div>
+
+<!-- PROBLEM STATEMENT SHOWCASE -->
+<div class="section-header center" style="margin-top: 48px;">
+    <span class="hero-tag" style="background:rgba(244,63,94,0.12); border-color:var(--rose); color:#FDA4AF;">THE CHALLENGE WE SOLVE</span>
+    <h2 class="section-title" style="justify-content:center;">Students Have Skills. But Is Their Career Journey Organized?</h2>
+    <p class="section-desc">Traditional student career tracking is fragmented and inefficient. CareerSync fixes all 4 major hurdles:</p>
+</div>
+
+<div class="problem-grid">
+    <div class="problem-card">
+        <div class="num-badge">01 · Scattered Information</div>
+        <h3>Scattered Information</h3>
+        <p>Resume details, technical skills, certifications, and GitHub projects spread across multiple unstructured platforms and files.</p>
+    </div>
+
+    <div class="problem-card">
+        <div class="num-badge">02 · Hidden Skill Gaps</div>
+        <h3>Hidden Skill Gaps</h3>
+        <p>No structured or automated way to identify what technical skills are missing for target industry roles like Full-Stack, AI/ML, or Data Science.</p>
+    </div>
+
+    <div class="problem-card">
+        <div class="num-badge">03 · Manual Management</div>
+        <h3>Manual Management</h3>
+        <p>Achievements, certificates, and resumes maintained manually without a consistent, ATS-optimized professional format.</p>
+    </div>
+
+    <div class="problem-card">
+        <div class="num-badge">04 · No Progress Tracking</div>
+        <h3>No Progress Tracking</h3>
+        <p>Career growth, milestone completion, and preparation readiness are difficult to monitor and benchmark over time.</p>
+    </div>
+</div>
+
+<!-- SOLUTION BANNER -->
+<div class="solution-banner">
+    <div class="solution-icon-box">🎯</div>
+    <div class="solution-content">
+        <h2>Meet CareerSync</h2>
+        <p>
+            A centralized platform to organize, track, and improve a student's career journey target roles. 
+            Empowering TGPCET students with automated skill-gap analysis, live ATS resume building, interactive goal roadmaps, and intelligent career guidance.
+        </p>
+    </div>
+</div>
+
+<!-- CORE INTERFACE SCREENS SHOWCASE -->
+<div class="section-header">
+    <h2 class="section-title">⚡ Explore Core Interface Screens</h2>
+    <p class="section-desc">Click any screen below to jump directly into the live experience:</p>
+</div>
+
+<div class="stat-grid">
+    <a href="{{ url_for('dashboard') }}" class="stat-box" style="text-decoration:none;">
+        <div class="stat-icon violet">📊</div>
+        <div class="stat-details">
+            <div class="num" style="font-size:20px;">Dashboard</div>
+            <div class="label">Career Overview & Quick Stats</div>
+        </div>
+    </a>
+
+    <a href="{{ url_for('skills') }}" class="stat-box" style="text-decoration:none;">
+        <div class="stat-icon cyan">⚡</div>
+        <div class="stat-details">
+            <div class="num" style="font-size:20px;">Skill Profile</div>
+            <div class="label">Proficiency Tracking & Gap Indicators</div>
+        </div>
+    </a>
+
+    <a href="{{ url_for('resume') }}" class="stat-box" style="text-decoration:none;">
+        <div class="stat-icon emerald">📄</div>
+        <div class="stat-details">
+            <div class="num" style="font-size:20px;">Resume Builder</div>
+            <div class="label">Structured Input + Live Preview</div>
+        </div>
+    </a>
+
+    <a href="{{ url_for('goals') }}" class="stat-box" style="text-decoration:none;">
+        <div class="stat-icon magenta">🎯</div>
+        <div class="stat-details">
+            <div class="num" style="font-size:20px;">Goal Tracker</div>
+            <div class="label">Progress Toward Target Roles</div>
+        </div>
+    </a>
+</div>
+{% endblock %}

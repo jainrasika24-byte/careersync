@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}CareerSync — AI-Powered Student Career Platform{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- TOP ANNOUNCEMENT BANNER -->
+<div class="header-banner">
+    <span class="badge-pill">TGPCET NAGPUR</span>
+    <span><strong>CareerSync:</strong> AI-Powered Student Career & Skill Management Platform</span>
+    <span>•</span>
+    <span><strong>Team:</strong> Rasika Chinchalkar · Payal Koyare</span>
+    <span>•</span>
+    <span><strong>Guided By:</strong> Prof. Mrunali Jadhav</span>
+</div>
+
+<!-- STICKY NAVBAR -->
+<nav class="navbar">
+    <a href="{{ url_for('overview') if endpoint_exists('overview') else url_for('dashboard') if session.get('user_id') else url_for('login') }}" class="logo-container">
+        <div class="logo-icon">✨</div>
+        <div class="logo-text">CareerSync</div>
+    </a>
+
+    {% if session.get('user_id') %}
+    <div class="nav-links">
+        <a href="{{ url_for('overview') }}" class="{% if request.endpoint == 'overview' %}active{% endif %}">🚀 Overview</a>
+        <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">📊 Dashboard</a>
+        <a href="{{ url_for('skills') }}" class="{% if request.endpoint == 'skills' %}active{% endif %}">⚡ Skill Profile</a>
+        <a href="{{ url_for('resume') }}" class="{% if request.endpoint == 'resume' %}active{% endif %}">📄 ATS Resume Studio</a>
+        <a href="{{ url_for('goals') }}" class="{% if request.endpoint == 'goals' %}active{% endif %}">🎯 Goal Tracker</a>
+        <a href="{{ url_for('certificates') }}" class="{% if request.endpoint == 'certificates' %}active{% endif %}">📜 Certificates</a>
+    </div>
+
+    <div class="user-profile-badge">
+        <div class="avatar-circle">{{ session.get('user_name', 'S')[0]|upper }}</div>
+        <span style="font-size:14px; font-weight:700;">{{ session.get('user_name') }}</span>
+        <a href="{{ url_for('profile') }}" style="color:var(--text-muted); font-size:12px; text-decoration:underline; margin-left:6px;">Profile</a>
+        <a href="{{ url_for('logout') }}" style="color:var(--rose); font-size:12px; font-weight:700; text-decoration:none; margin-left:10px;">Logout</a>
+    </div>
+    {% else %}
+    <div class="nav-links">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}" class="btn-primary btn-sm">Get Started</a>
+    </div>
+    {% endif %}
+</nav>
+
+<!-- MAIN CONTAINER -->
+<div class="main-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}" style="background:rgba(139, 92, 246, 0.15); border:1px solid var(--primary-light); color:white; padding:14px 20px; border-radius:12px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center;">
+                    <span>✨ {{ message }}</span>
+                    <button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; cursor:pointer; font-weight:700;">✕</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</div>
+
+<!-- FLOATING AI CAREER ADVISOR BOT -->
+<button class="ai-fab-btn" id="ai_fab_btn">
+    <span>🤖</span>
+    <span>AI Career Advisor</span>
+</button>
+
+<div class="ai-chat-drawer" id="ai_chat_drawer">
+    <div class="ai-drawer-header">
+        <h3>✨ CareerSync AI Advisor</h3>
+        <button id="ai_close_btn" style="background:none; border:none; color:var(--text-muted); font-size:18px; cursor:pointer;">✕</button>
+    </div>
+    <div class="ai-chat-body" id="ai_chat_body">
+        <div class="chat-bubble bot">
+            👋 Hello! I am your <strong>CareerSync AI Advisor</strong>. How can I help you analyze skill gaps, polish your resume, or plan your TGPCET career journey today?
+        </div>
+    </div>
+    <div class="ai-chat-input-bar">
+        <input type="text" id="ai_chat_input" placeholder="Ask AI (e.g. 'How to become an AI engineer?')...">
+        <button class="btn-primary btn-sm" id="ai_send_btn">Send</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Student Profile — CareerSync{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <span class="hero-tag">STUDENT ACCOUNT</span>
+    <h1 class="section-title">👤 Student Profile Settings</h1>
+    <p class="section-desc">Manage your academic branch, year, contact information, and personal bio summary.</p>
+</div>
+
+<div class="card-panel" style="max-width:720px; margin:0 auto;">
+    <form method="POST" action="{{ url_for('profile') }}">
+        <div class="form-group">
+            <label>Branch & Department</label>
+            <input type="text" name="branch" value="{{ profile['branch'] if profile and profile['branch'] else 'Computer Science & Engineering' }}" placeholder="e.g. Computer Science & Engineering" required>
+        </div>
+
+        <div class="form-row">
+            <div>
+                <label>Academic Year</label>
+                <select name="year" required>
+                    <option value="1st Year" {% if profile and profile['year']=='1st Year' %}selected{% endif %}>1st Year</option>
+                    <option value="2nd Year" {% if profile and profile['year']=='2nd Year' %}selected{% endif %}>2nd Year</option>
+                    <option value="3rd Year" {% if profile and profile['year']=='3rd Year' %}selected{% endif %}>3rd Year</option>
+                    <option value="Final Year" {% if profile and profile['year']=='Final Year' or not profile %}selected{% endif %}>Final Year (4th Year)</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Phone Number</label>
+                <input type="tel" name="phone" value="{{ profile['phone'] if profile and profile['phone'] else '+91 98765 43210' }}" placeholder="+91 98765 43210">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Professional Bio / Summary</label>
+            <textarea name="bio" rows="4" placeholder="Brief statement about your career aspirations and tech stack interests...">{{ profile['bio'] if profile and profile['bio'] else 'Motivated Computer Science student at TGPCET Nagpur. Specializing in full-stack web application development, data structures, and database management.' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%; justify-content:center; padding:14px;">Save Profile Changes</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Resume Builder — Structured Input with Live Preview{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <span class="hero-tag" style="background:rgba(139,92,246,0.12); border-color:var(--primary); color:var(--primary-light);">ATS RESUME STUDIO</span>
+    <h1 class="section-title">📄 Resume Builder & Real-Time Live Preview</h1>
+    <p class="section-desc">Edit structured details on the left, watch live ATS resume render on the right, and export to PDF instantly.</p>
+</div>
+
+<!-- TOP THEME & ACTION CONTROLS -->
+<div class="card-panel" style="padding:16px 24px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+    <div>
+        <span style="font-size:13px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px;">SELECT ATS VISUAL TEMPLATE:</span>
+        <div class="theme-selector-bar" style="margin-bottom:0;">
+            <button class="theme-btn active" data-theme="tpl-modern">🎨 Modern Violet</button>
+            <button class="theme-btn" data-theme="tpl-tech">⚡ Tech Minimalist</button>
+            <button class="theme-btn" data-theme="tpl-executive">🏛️ Executive Slate</button>
+        </div>
+    </div>
+
+    <div style="display:flex; gap:12px;">
+        <button onclick="window.print()" class="btn-primary">
+            <span>📥 Export Resume (PDF / Print)</span>
+        </button>
+    </div>
+</div>
+
+<!-- SPLIT RESUME BUILDER LAYOUT -->
+<div class="resume-builder-layout">
+    <!-- LEFT PANE: STRUCTURED INPUT FORM -->
+    <div class="resume-form-pane">
+        <h3 style="font-size:18px; font-weight:700; color:white; margin-bottom:20px; border-bottom:1px solid var(--border-line); padding-bottom:10px;">
+            📝 Structured Resume Input
+        </h3>
+
+        <!-- PERSONAL & CONTACT INFO -->
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="res_name" value="{{ user['name'] }}" placeholder="Your Name">
+        </div>
+
+        <div class="form-row">
+            <div>
+                <label>Email Address</label>
+                <input type="email" id="res_email" value="{{ user['email'] }}" placeholder="student@tgpcet.ac.in">
+            </div>
+            <div>
+                <label>Phone Number</label>
+                <input type="tel" id="res_phone" value="{{ profile['phone'] if profile and profile['phone'] else '+91 98765 43210' }}" placeholder="+91 98765 43210">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div>
+                <label>Branch & Specialization</label>
+                <input type="text" id="res_branch" value="{{ profile['branch'] if profile and profile['branch'] else 'B.Tech Computer Science & Engineering' }}">
+            </div>
+            <div>
+                <label>College / Institution</label>
+                <input type="text" id="res_college" value="Tulsiramji Gaikwad-Patil College of Engineering & Technology (TGPCET), Nagpur">
+            </div>
+        </div>
+
+        <!-- PROFESSIONAL SUMMARY -->
+        <div class="form-group">
+            <label>Professional Bio / Summary</label>
+            <textarea id="res_summary" rows="3" placeholder="Write a concise career summary...">{{ profile['bio'] if profile and profile['bio'] else 'Motivated Computer Science student with strong foundations in full-stack web development, software engineering, and database management. Passionate about building scalable apps and solving complex problems.' }}</textarea>
+        </div>
+
+        <!-- TECHNICAL SKILLS -->
+        <div class="form-group">
+            <label>Technical Skills (Comma Separated)</label>
+            {% set skill_str = [] %}
+            {% if skills %}
+                {% for s in skills %}
+                    {% set _ = skill_str.append(s['skill_name']) %}
+                {% endfor %}
+            {% endif %}
+            <input type="text" id="res_skills" value="{{ skill_str|join(', ') if skill_str else 'Python, Flask, HTML5, CSS3, JavaScript, SQL, Git, Data Structures' }}">
+        </div>
+
+        <!-- PROJECTS -->
+        <div class="form-group">
+            <label>Key Projects (One per line)</label>
+            <textarea id="res_projects" rows="4" placeholder="Project Title - Description...">CareerSync Platform: Centralized student career & skill management system built with Python Flask & SQL.
+Personal Portfolio: Responsive developer portfolio built using HTML5, CSS3, and JavaScript animations.
+AI Image Classifier: Machine learning model trained to classify image datasets using NumPy and PyTorch.</textarea>
+        </div>
+
+        <!-- CERTIFICATIONS & ACHIEVEMENTS -->
+        <div class="form-group">
+            <label>Certifications & Credentials (One per line)</label>
+            <textarea id="res_certs" rows="3" placeholder="Certification Title - Issuer...">{% if certificates %}{% for c in certificates %}{{ c['title'] }} — {{ c['issuer'] }} ({{ c['year'] }})&#10;{% endfor %}{% else %}AWS Certified Cloud Practitioner — Amazon Web Services (2025)
+Full Stack Web Development Certificate — Coursera (2024){% endif %}</textarea>
+        </div>
+    </div>
+
+    <!-- RIGHT PANE: REAL-TIME LIVE PREVIEW -->
+    <div class="resume-preview-wrapper">
+        <div class="card-title-bar" style="margin-bottom:12px;">
+            <h3 style="font-size:16px; font-weight:700; color:white;">✨ Live ATS Preview</h3>
+            <span style="font-size:12px; color:var(--emerald-light);">● Auto-Updating Live</span>
+        </div>
+
+        <!-- ATS RESUME PAPER -->
+        <div id="resume_paper" class="resume-paper tpl-modern">
+            <!-- HEADER -->
+            <div style="border-bottom: 2px solid #E2E8F0; padding-bottom:14px; margin-bottom:16px;">
+                <h1 id="prev_name" style="margin:0;">{{ user['name'] }}</h1>
+                <div id="prev_contact" class="resume-header-contact" style="margin-top:6px;">
+                    {{ user['email'] }} | +91 98765 43210
+                </div>
+            </div>
+
+            <!-- EDUCATION -->
+            <div class="sec-title">Education</div>
+            <div id="prev_edu" style="font-weight:600; color:#334155; margin-bottom:10px;">
+                B.Tech Computer Science & Engineering — TGPCET Nagpur
+            </div>
+
+            <!-- SUMMARY -->
+            <div class="sec-title">Professional Summary</div>
+            <p id="prev_summary" style="color:#475569; font-size:13px;">
+                Motivated Computer Science student passionate about software engineering and web development.
+            </p>
+
+            <!-- SKILLS -->
+            <div class="sec-title">Skills & Competencies</div>
+            <div id="prev_skills_tags">
+                <!-- Tags generated dynamically -->
+            </div>
+
+            <!-- PROJECTS -->
+            <div class="sec-title">Key Projects</div>
+            <ul id="prev_projects_list" style="padding-left:18px; color:#334155; font-size:13px;">
+                <!-- Populated by JS -->
+            </ul>
+
+            <!-- CERTIFICATIONS -->
+            <div class="sec-title">Certifications & Achievements</div>
+            <div id="prev_certs_list" style="color:#334155; font-size:13px;">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

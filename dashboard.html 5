@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Career Overview & Quick Stats{% endblock %}
+
+{% block content %}
+<!-- WELCOME HEADER -->
+<div class="card-panel" style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(15, 23, 42, 0.8)); border-color: var(--border-glow);">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div>
+            <span class="badge-pill" style="background:rgba(139,92,246,0.2); color:var(--primary-light); font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px;">TGPCET STUDENT DASHBOARD</span>
+            <h1 style="font-family:'Outfit',sans-serif; font-size:32px; font-weight:800; color:white; margin-top:8px;">
+                Welcome back, {{ session.user_name }}! 👋
+            </h1>
+            <p style="color:var(--text-secondary); font-size:15px; margin-top:4px;">
+                Here is your real-time career readiness overview and skill progression status.
+            </p>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <a href="{{ url_for('skills') }}" class="btn-primary btn-sm">⚡ Add Skill</a>
+            <a href="{{ url_for('resume') }}" class="btn-secondary btn-sm">📄 Edit Resume</a>
+        </div>
+    </div>
+</div>
+
+<!-- STATS GRID -->
+<div class="stat-grid">
+    <div class="stat-box">
+        <div class="stat-icon violet">⚡</div>
+        <div class="stat-details">
+            <div class="num">{{ skills|length }}</div>
+            <div class="label">SKILLS MASTERED</div>
+        </div>
+    </div>
+
+    <div class="stat-box">
+        <div class="stat-icon cyan">📜</div>
+        <div class="stat-details">
+            <div class="num">{{ certs|length }}</div>
+            <div class="label">CERTIFICATES</div>
+        </div>
+    </div>
+
+    <div class="stat-box">
+        <div class="stat-icon emerald">🎯</div>
+        <div class="stat-details">
+            <div class="num">{{ match_pct }}%</div>
+            <div class="label">TARGET ROLE MATCH</div>
+        </div>
+    </div>
+
+    <div class="stat-box">
+        <div class="stat-icon magenta">💎</div>
+        <div class="stat-details">
+            <div class="num">88 / 100</div>
+            <div class="label">CAREER HEALTH INDEX</div>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN DASHBOARD CONTENT -->
+<div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
+    <!-- LEFT COLUMN -->
+    <div>
+        <!-- CAREER GOAL PROGRESS CARD -->
+        <div class="card-panel">
+            <div class="card-title-bar">
+                <h2>🎯 Career Goal Match & Skill Gap Analysis</h2>
+                <a href="{{ url_for('goals') }}" style="color:var(--cyan-light); font-size:13px; text-decoration:none;">Change Goal &rarr;</a>
+            </div>
+
+            {% if goal_title %}
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <div>
+                        <span style="font-size:13px; color:var(--text-muted);">Selected Target Role:</span>
+                        <h3 style="font-size:22px; font-weight:800; color:white; font-family:'Outfit',sans-serif;">{{ goal_title }}</h3>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="font-size:24px; font-weight:800; color:var(--emerald-light);">{{ match_pct }}%</span>
+                        <span style="display:block; font-size:12px; color:var(--text-muted);">Required Skills Match</span>
+                    </div>
+                </div>
+
+                <div class="progress-track" style="height:18px; margin-bottom:20px;">
+                    <div class="progress-fill" style="width:{{ match_pct }}%;"></div>
+                </div>
+
+                {% if missing %}
+                    <div style="margin-top:16px; background:rgba(244,63,94,0.08); border:1px solid rgba(244,63,94,0.25); padding:16px; border-radius:12px;">
+                        <h4 style="font-size:14px; font-weight:700; color:#FDA4AF; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                            <span>⚠️</span> Missing Skills for Target Role:
+                        </h4>
+                        <div class="tag-list">
+                            {% for m in missing %}
+                                <span class="tag-pill missing">⚠ {{ m }}</span>
+                            {% endfor %}
+                        </div>
+                        <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
+                            💡 Tip: Head to the <strong>Skill Profile</strong> to add proficiency for these missing skills!
+                        </p>
+                    </div>
+                {% else %}
+                    <div style="margin-top:16px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); padding:16px; border-radius:12px; color:var(--emerald-light); font-weight:600;">
+                        🎉 Outstanding! You already possess all core skills required for {{ goal_title }}.
+                    </div>
+                {% endif %}
+            {% else %}
+                <div style="text-align:center; padding:32px 16px;">
+                    <p style="color:var(--text-muted); font-size:15px; margin-bottom:16px;">
+                        You haven't selected a target career goal yet.
+                    </p>
+                    <a href="{{ url_for('goals') }}" class="btn-primary btn-sm">Choose Target Role Now</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- ACQUIRED SKILLS SUMMARY -->
+        <div class="card-panel">
+            <div class="card-title-bar">
+                <h2>⚡ Acquired Skills Portfolio</h2>
+                <a href="{{ url_for('skills') }}" style="color:var(--cyan-light); font-size:13px; text-decoration:none;">View All &rarr;</a>
+            </div>
+            {% if skills %}
+                <div class="tag-list">
+                    {% for s in skills %}
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light); border-color:rgba(139,92,246,0.3);">
+                            ✓ {{ s['skill_name'] }} <small style="opacity:0.8;">({{ s['proficiency'] }})</small>
+                        </span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color:var(--text-muted);">No skills added yet. Add your first skill in the Skill Profile screen.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+        <!-- QUICK ACTIONS PANEL -->
+        <div class="card-panel">
+            <h3 style="font-size:18px; font-weight:700; color:white; margin-bottom:16px;">🚀 Quick Actions</h3>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <a href="{{ url_for('skills') }}" class="btn-secondary" style="justify-content:flex-start;">
+                    <span>⚡</span> <span>Skill Gap Analyzer</span>
+                </a>
+                <a href="{{ url_for('resume') }}" class="btn-secondary" style="justify-content:flex-start;">
+                    <span>📄 Build ATS Resume</span>
+                </a>
+                <a href="{{ url_for('goals') }}" class="btn-secondary" style="justify-content:flex-start;">
+                    <span>🎯 Career Goal Roadmap</span>
+                </a>
+                <a href="{{ url_for('certificates') }}" class="btn-secondary" style="justify-content:flex-start;">
+                    <span>📜 Manage Certificates</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- RECENT MILESTONES -->
+        <div class="card-panel">
+            <h3 style="font-size:18px; font-weight:700; color:white; margin-bottom:14px;">📌 Recent Activity</h3>
+            <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-size:13.5px;">
+                <li style="display:flex; gap:10px; color:var(--text-secondary);">
+                    <span style="color:var(--emerald);">✓</span>
+                    <span>Added Python & Flask skills to profile</span>
+                </li>
+                <li style="display:flex; gap:10px; color:var(--text-secondary);">
+                    <span style="color:var(--cyan);">•</span>
+                    <span>Set target role to Full-Stack Developer</span>
+                </li>
+                <li style="display:flex; gap:10px; color:var(--text-secondary);">
+                    <span style="color:var(--primary-light);">✨</span>
+                    <span>Generated ATS-formatted resume preview</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
