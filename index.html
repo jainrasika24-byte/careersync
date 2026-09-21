@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerSync — AI-Powered Student Career & Skill Management Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #070913;
+  --bg-surface: #0E1328;
+  --bg-card: rgba(20, 27, 54, 0.75);
+  --bg-card-hover: rgba(30, 40, 78, 0.85);
+  
+  --primary: #8B5CF6;
+  --primary-light: #A78BFA;
+  --primary-glow: rgba(139, 92, 246, 0.35);
+  
+  --cyan: #06B6D4;
+  --cyan-light: #67E8F9;
+  --cyan-glow: rgba(6, 182, 212, 0.3);
+  
+  --magenta: #EC4899;
+  --emerald: #10B981;
+  --emerald-light: #6EE7B7;
+  --rose: #F43F5E;
+  --amber: #F59E0B;
+  
+  --text-main: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border-line: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(139, 92, 246, 0.3);
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-glow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(14, 19, 40, 0.5) 0%, transparent 100%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* HEADER BANNER & NAVBAR */
+.header-banner {
+  background: linear-gradient(90deg, #4C1D95, #1E1B4B, #0E7490);
+  padding: 8px 16px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 600;
+  color: #E0E7FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-line);
+}
+.header-banner .badge-pill {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(14, 19, 40, 0.85);
+  backdrop-filter: blur(16px);
+  padding: 16px 36px;
+  border-bottom: 1px solid var(--border-line);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.navbar .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.navbar .logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary), var(--cyan));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+.navbar .logo-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFFFFF, var(--primary-light), var(--cyan-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; align-items: center; gap: 8px; }
+.nav-btn-tab {
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: var(--transition);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-btn-tab:hover { color: white; background: rgba(255, 255, 255, 0.07); }
+.nav-btn-tab.active {
+  color: white;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(6, 182, 212, 0.25));
+  border: 1px solid var(--border-glow);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-line);
+  border-radius: 30px;
+}
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan), var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 13px;
+}
+
+/* MAIN CONTAINER & SPA PAGES */
+.main-container { max-width: 1240px; margin: 0 auto; padding: 32px 24px 80px; }
+.tab-page { display: none; }
+.tab-page.active { display: block; animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* HERO & CARDS */
+.hero-section {
+  text-align: center;
+  padding: 48px 24px;
+  background: linear-gradient(180deg, rgba(30, 27, 75, 0.4) 0%, rgba(14, 19, 40, 0) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-line);
+  margin-bottom: 40px;
+  position: relative;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid var(--primary);
+  border-radius: 30px;
+  color: var(--primary-light);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #FFFFFF 30%, #C4B5FD 70%, #67E8F9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-subtitle { font-size: 20px; color: var(--text-secondary); max-width: 760px; margin: 0 auto 28px; }
+
+.team-credits-card {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.8);
+  padding: 12px 28px;
+  border-radius: 40px;
+  border: 1px solid var(--border-line);
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+.team-credits-card strong { color: var(--cyan-light); }
+
+.hero-cta-group { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #7C3AED);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px var(--primary-glow);
+  text-decoration: none;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5); }
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border: 1px solid var(--border-line);
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan), #0284C7); color: white; }
+
+.section-header { margin-bottom: 28px; }
+.section-header.center { text-align: center; }
+.section-title { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; color: white; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+.section-desc { font-size: 16px; color: var(--text-muted); }
+
+.problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 40px; }
+.problem-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  transition: var(--transition);
+}
+.problem-card:hover { transform: translateY(-4px); border-color: rgba(244, 63, 94, 0.5); background: var(--bg-card-hover); }
+.problem-card .num-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--rose);
+  background: rgba(244, 63, 94, 0.15);
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 16px;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+}
+.problem-card h3 { font-size: 18px; font-weight: 700; color: white; margin-bottom: 10px; }
+.problem-card p { font-size: 14px; color: var(--text-secondary); }
+
+.solution-banner {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(6, 182, 212, 0.25));
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.solution-icon-box {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, var(--primary), var(--cyan));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: white;
+  flex-shrink: 0;
+}
+.solution-content h2 { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; color: white; margin-bottom: 8px; }
+
+/* STATS & DASHBOARD */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 32px; }
+.stat-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: var(--transition);
+}
+.stat-box:hover { transform: translateY(-3px); border-color: var(--border-glow); }
+.stat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.stat-icon.violet { background: rgba(139, 92, 246, 0.18); color: var(--primary-light); }
+.stat-icon.cyan { background: rgba(6, 182, 212, 0.18); color: var(--cyan-light); }
+.stat-icon.emerald { background: rgba(16, 185, 129, 0.18); color: var(--emerald-light); }
+.stat-icon.magenta { background: rgba(236, 72, 153, 0.18); color: #F472B6; }
+.stat-details .num { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; color: white; line-height: 1; }
+.stat-details .label { font-size: 13px; color: var(--text-muted); font-weight: 600; margin-top: 6px; text-transform: uppercase; }
+
+.card-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 28px;
+}
+.card-title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-line); }
+.card-title-bar h2 { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: white; }
+
+.progress-track { background: rgba(255, 255, 255, 0.08); border-radius: 20px; height: 14px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--primary), var(--cyan)); transition: width 0.8s ease; }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-line); color: var(--text-secondary); }
+.tag-pill.matched { background: rgba(16, 185, 129, 0.15); color: var(--emerald-light); border-color: rgba(16, 185, 129, 0.4); }
+.tag-pill.missing { background: rgba(244, 63, 94, 0.15); color: #FDA4AF; border-color: rgba(244, 63, 94, 0.4); }
+
+/* GAP MATRIX */
+.gap-indicator-box { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+@media(max-width:768px){ .gap-indicator-box { grid-template-columns: 1fr; } }
+.gap-column { background: rgba(10, 14, 30, 0.6); border: 1px solid var(--border-line); border-radius: var(--radius-md); padding: 20px; }
+.gap-column h4 { font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+
+/* RESUME BUILDER */
+.resume-builder-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+@media(max-width:1024px){ .resume-builder-layout { grid-template-columns: 1fr; } }
+.resume-form-pane { background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-lg); padding: 28px; max-height: 800px; overflow-y: auto; }
+
+.form-group { margin-bottom: 20px; }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px; }
+label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+  width: 100%; padding: 10px 14px; background: rgba(10, 14, 30, 0.7); border: 1px solid var(--border-line); border-radius: var(--radius-sm); color: white; font-family: inherit; font-size: 14px;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 10px var(--primary-glow); }
+textarea { resize: vertical; min-height: 80px; }
+
+.theme-selector-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.theme-btn { padding: 8px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid var(--border-line); background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); cursor: pointer; }
+.theme-btn.active { background: var(--primary); color: white; border-color: var(--primary-light); }
+
+.resume-paper { background: #FFFFFF; color: #1E293B; border-radius: var(--radius-sm); padding: 40px 36px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); min-height: 720px; font-family: 'Inter', sans-serif; font-size: 13.5px; line-height: 1.5; }
+.resume-paper.tpl-modern { border-top: 6px solid #7C3AED; }
+.resume-paper.tpl-modern h1 { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: #5B21B6; }
+.resume-paper.tpl-modern .sec-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: #7C3AED; text-transform: uppercase; border-bottom: 2px solid #DDD6FE; padding-bottom: 4px; margin: 18px 0 10px; }
+
+.resume-paper.tpl-tech { border-left: 6px solid #06B6D4; background: #FAFAFA; }
+.resume-paper.tpl-tech h1 { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: #0E7490; }
+.resume-paper.tpl-tech .sec-title { font-family: monospace; font-size: 14px; font-weight: 800; color: #0891B2; border-bottom: 1px dashed #A5F3FC; padding-bottom: 4px; margin: 18px 0 10px; }
+
+.resume-header-contact { font-size: 12px; color: #64748B; margin-bottom: 12px; }
+.resume-pill-tag { display: inline-block; background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; padding: 2px 8px; border-radius: 4px; font-size: 11.5px; font-weight: 600; margin: 2px; }
+
+/* AI CHAT BOT */
+.ai-fab-btn {
+  position: fixed; bottom: 28px; right: 28px; background: linear-gradient(135deg, var(--primary), var(--cyan)); color: white; border: none; padding: 14px 22px; border-radius: 40px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px var(--primary-glow); display: flex; align-items: center; gap: 10px; z-index: 999;
+}
+.ai-chat-drawer {
+  position: fixed; bottom: 90px; right: 28px; width: 380px; height: 520px; background: rgba(14, 19, 40, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--border-glow); border-radius: var(--radius-lg); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; z-index: 1000; transform: translateY(20px); opacity: 0; pointer-events: none; transition: var(--transition);
+}
+.ai-chat-drawer.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.ai-drawer-header { padding: 16px 20px; background: linear-gradient(90deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.2)); border-bottom: 1px solid var(--border-line); display: flex; justify-content: space-between; align-items: center; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+.ai-chat-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.chat-bubble { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.45; }
+.chat-bubble.bot { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border-bottom-left-radius: 4px; align-self: flex-start; border: 1px solid var(--border-line); }
+.chat-bubble.user { background: var(--primary); color: white; border-bottom-right-radius: 4px; align-self: flex-end; }
+.ai-chat-input-bar { padding: 12px 16px; border-top: 1px solid var(--border-line); display: flex; gap: 8px; }
+
+@media print {
+  body * { visibility: hidden; }
+  .resume-paper, .resume-paper * { visibility: visible; }
+  .resume-paper { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; padding: 20px; }
+  .navbar, .header-banner, .ai-fab-btn, .ai-chat-drawer, .theme-selector-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP ANNOUNCEMENT BANNER -->
+<div class="header-banner">
+    <span class="badge-pill">TGPCET NAGPUR</span>
+    <span><strong>CareerSync:</strong> AI-Powered Student Career & Skill Management Platform</span>
+    <span>•</span>
+    <span><strong>Team:</strong> Rasika Chinchalkar · Payal Koyare</span>
+    <span>•</span>
+    <span><strong>Guided By:</strong> Prof. Mrunali Jadhav</span>
+</div>
+
+<!-- STICKY NAVBAR -->
+<nav class="navbar">
+    <div class="logo-container" onclick="switchPage('page-overview', document.querySelectorAll('.nav-btn-tab')[0])">
+        <div class="logo-icon">✨</div>
+        <div class="logo-text">CareerSync</div>
+    </div>
+
+    <div class="nav-links">
+        <button class="nav-btn-tab active" onclick="switchPage('page-overview', this)">🚀 Overview</button>
+        <button class="nav-btn-tab" onclick="switchPage('page-dashboard', this)">📊 Dashboard</button>
+        <button class="nav-btn-tab" onclick="switchPage('page-skills', this)">⚡ Skill Profile</button>
+        <button class="nav-btn-tab" onclick="switchPage('page-resume', this)">📄 ATS Resume Studio</button>
+        <button class="nav-btn-tab" onclick="switchPage('page-goals', this)">🎯 Goal Tracker</button>
+    </div>
+
+    <div class="user-profile-badge">
+        <div class="avatar-circle">R</div>
+        <span style="font-size:14px; font-weight:700;">Rasika Chinchalkar</span>
+        <span style="font-size:11px; background:rgba(16,185,129,0.2); color:var(--emerald-light); padding:2px 8px; border-radius:10px;">Final Year</span>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT CONTAINER -->
+<div class="main-container">
+
+    <!-- PAGE 1: OVERVIEW & LANDING -->
+    <div id="page-overview" class="tab-page active">
+        <div class="hero-section">
+            <div class="hero-tag">✨ AI-POWERED STUDENT CAREER PLATFORM</div>
+            <h1 class="hero-title">Meet CareerSync</h1>
+            <p class="hero-subtitle">
+                A centralized platform to organize, track, and improve a student's career journey for target roles.
+            </p>
+
+            <div class="team-credits-card">
+                <span>👨‍💻 <strong>Team:</strong> Rasika Chinchalkar · Payal Koyare</span>
+                <span>|</span>
+                <span>👩‍🏫 <strong>Guided By:</strong> Prof. Mrunali Jadhav</span>
+                <span>|</span>
+                <span>🏫 <strong>TGPCET NAGPUR</strong></span>
+            </div>
+
+            <div class="hero-cta-group">
+                <button class="btn-primary" onclick="switchPage('page-dashboard', document.querySelectorAll('.nav-btn-tab')[1])">
+                    <span>📊 Open Dashboard</span>
+                    <span>&rarr;</span>
+                </button>
+                <button class="btn-secondary" onclick="switchPage('page-skills', document.querySelectorAll('.nav-btn-tab')[2])">
+                    <span>⚡ Check Skill Gaps</span>
+                </button>
+                <button class="btn-secondary btn-cyan" onclick="switchPage('page-resume', document.querySelectorAll('.nav-btn-tab')[3])">
+                    <span>📄 ATS Resume Studio</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="section-header center" style="margin-top: 48px;">
+            <span class="hero-tag" style="background:rgba(244,63,94,0.12); border-color:var(--rose); color:#FDA4AF;">THE CHALLENGE WE SOLVE</span>
+            <h2 class="section-title" style="justify-content:center;">Students Have Skills. But Is Their Career Journey Organized?</h2>
+            <p class="section-desc">Traditional student career tracking is fragmented and inefficient. CareerSync fixes all 4 major hurdles:</p>
+        </div>
+
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="num-badge">01 · Scattered Information</div>
+                <h3>Scattered Information</h3>
+                <p>Resume details, technical skills, certifications, and GitHub projects spread across multiple unstructured platforms and files.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="num-badge">02 · Hidden Skill Gaps</div>
+                <h3>Hidden Skill Gaps</h3>
+                <p>No structured or automated way to identify what technical skills are missing for target industry roles like Full-Stack, AI/ML, or Data Science.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="num-badge">03 · Manual Management</div>
+                <h3>Manual Management</h3>
+                <p>Achievements, certificates, and resumes maintained manually without a consistent, ATS-optimized professional format.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="num-badge">04 · No Progress Tracking</div>
+                <h3>No Progress Tracking</h3>
+                <p>Career growth, milestone completion, and preparation readiness are difficult to monitor and benchmark over time.</p>
+            </div>
+        </div>
+
+        <div class="solution-banner">
+            <div class="solution-icon-box">🎯</div>
+            <div class="solution-content">
+                <h2>Meet CareerSync</h2>
+                <p>
+                    A centralized platform to organize, track, and improve a student's career journey target roles. 
+                    Empowering TGPCET students with automated skill-gap analysis, live ATS resume building, interactive goal roadmaps, and intelligent career guidance.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: DASHBOARD -->
+    <div id="page-dashboard" class="tab-page">
+        <div class="card-panel" style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(15, 23, 42, 0.8)); border-color: var(--border-glow);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                <div>
+                    <span class="badge-pill" style="background:rgba(139,92,246,0.2); color:var(--primary-light); font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px;">TGPCET STUDENT DASHBOARD</span>
+                    <h1 style="font-family:'Outfit',sans-serif; font-size:32px; font-weight:800; color:white; margin-top:8px;">
+                        Welcome back, Rasika! 👋
+                    </h1>
+                    <p style="color:var(--text-secondary); font-size:15px; margin-top:4px;">
+                        Here is your real-time career readiness overview and skill progression status.
+                    </p>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="switchPage('page-skills', document.querySelectorAll('.nav-btn-tab')[2])" class="btn-primary btn-sm">⚡ Add Skill</button>
+                    <button onclick="switchPage('page-resume', document.querySelectorAll('.nav-btn-tab')[3])" class="btn-secondary btn-sm">📄 Edit Resume</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-icon violet">⚡</div>
+                <div class="stat-details">
+                    <div class="num">14</div>
+                    <div class="label">SKILLS MASTERED</div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon cyan">📜</div>
+                <div class="stat-details">
+                    <div class="num">4</div>
+                    <div class="label">CERTIFICATES</div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon emerald">🎯</div>
+                <div class="stat-details">
+                    <div class="num">82%</div>
+                    <div class="label">TARGET ROLE MATCH</div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon magenta">💎</div>
+                <div class="stat-details">
+                    <div class="num">92 / 100</div>
+                    <div class="label">CAREER HEALTH INDEX</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
+            <div>
+                <div class="card-panel">
+                    <div class="card-title-bar">
+                        <h2>🎯 Career Goal Match & Skill Gap Analysis</h2>
+                        <button onclick="switchPage('page-goals', document.querySelectorAll('.nav-btn-tab')[4])" style="background:none; border:none; color:var(--cyan-light); font-size:13px; cursor:pointer;">Change Goal &rarr;</button>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <div>
+                            <span style="font-size:13px; color:var(--text-muted);">Selected Target Role:</span>
+                            <h3 style="font-size:22px; font-weight:800; color:white; font-family:'Outfit',sans-serif;">Web Developer (Full-Stack)</h3>
+                        </div>
+                        <div style="text-align:right;">
+                            <span style="font-size:24px; font-weight:800; color:var(--emerald-light);">82% Match</span>
+                            <span style="display:block; font-size:12px; color:var(--text-muted);">Required Skills Match</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-track" style="height:18px; margin-bottom:20px;">
+                        <div class="progress-fill" style="width:82%;"></div>
+                    </div>
+
+                    <div style="margin-top:16px; background:rgba(244,63,94,0.08); border:1px solid rgba(244,63,94,0.25); padding:16px; border-radius:12px;">
+                        <h4 style="font-size:14px; font-weight:700; color:#FDA4AF; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                            <span>⚠️</span> Missing Skills for Target Role:
+                        </h4>
+                        <div class="tag-list">
+                            <span class="tag-pill missing">⚠ Docker</span>
+                            <span class="tag-pill missing">⚠ CI/CD Pipelines</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-panel">
+                    <div class="card-title-bar">
+                        <h2>⚡ Acquired Skills Portfolio</h2>
+                        <button onclick="switchPage('page-skills', document.querySelectorAll('.nav-btn-tab')[2])" style="background:none; border:none; color:var(--cyan-light); font-size:13px; cursor:pointer;">View All &rarr;</button>
+                    </div>
+                    <div class="tag-list">
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light);">✓ HTML5 (Advanced)</span>
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light);">✓ CSS3 (Advanced)</span>
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light);">✓ JavaScript (Intermediate)</span>
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light);">✓ Python (Advanced)</span>
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light);">✓ Flask (Intermediate)</span>
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light);">✓ SQL (Advanced)</span>
+                        <span class="tag-pill matched" style="background:rgba(139,92,246,0.15); color:var(--primary-light);">✓ Git (Intermediate)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="card-panel">
+                    <h3 style="font-size:18px; font-weight:700; color:white; margin-bottom:16px;">🚀 Quick Actions</h3>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <button onclick="switchPage('page-skills', document.querySelectorAll('.nav-btn-tab')[2])" class="btn-secondary" style="justify-content:flex-start;">⚡ Skill Gap Analyzer</button>
+                        <button onclick="switchPage('page-resume', document.querySelectorAll('.nav-btn-tab')[3])" class="btn-secondary" style="justify-content:flex-start;">📄 Build ATS Resume</button>
+                        <button onclick="switchPage('page-goals', document.querySelectorAll('.nav-btn-tab')[4])" class="btn-secondary" style="justify-content:flex-start;">🎯 Goal Roadmap</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: SKILL PROFILE -->
+    <div id="page-skills" class="tab-page">
+        <div class="section-header">
+            <span class="hero-tag" style="background:rgba(6,182,212,0.12); border-color:var(--cyan); color:var(--cyan-light);">INTERACTIVE SKILL MATRIX</span>
+            <h1 class="section-title">⚡ Skill Profile & Skill-Gap Analyzer</h1>
+            <p class="section-desc">Track your technical proficiencies in real-time and identify missing skill gaps for target industry roles.</p>
+        </div>
+
+        <div class="card-panel" style="border-color:var(--border-glow);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                <div style="flex:1; min-width:260px;">
+                    <label style="font-size:14px; font-weight:700; color:white; margin-bottom:8px;">🎯 Target Role for Skill Gap Analysis:</label>
+                    <select id="role_analyzer_select" style="font-size:15px; font-weight:600; background:var(--bg-dark); padding:12px 16px;" onchange="runGapAnalysis()">
+                        <option value="Web Developer">💻 Web Developer (Full-Stack)</option>
+                        <option value="AI/ML Engineer">🤖 AI/ML Engineer</option>
+                        <option value="Data Analyst">📊 Data Analyst / Data Scientist</option>
+                        <option value="Software Engineer">⚙️ Software Engineer (Backend/DSA)</option>
+                        <option value="Cloud & DevOps Engineer">☁️ Cloud & DevOps Engineer</option>
+                        <option value="Mobile App Developer">📱 Mobile App Developer</option>
+                    </select>
+                </div>
+                <div style="text-align:right;">
+                    <span style="font-size:13px; color:var(--text-muted);">Match Percentage:</span>
+                    <div id="gap_match_score" style="font-size:36px; font-weight:800; color:var(--emerald-light); font-family:'Outfit',sans-serif; line-height:1;">88%</div>
+                </div>
+            </div>
+
+            <div class="progress-track" style="height:16px; margin:16px 0 24px;">
+                <div id="gap_progress_fill" class="progress-fill" style="width:88%;">88% Matched</div>
+            </div>
+
+            <div class="gap-indicator-box">
+                <div class="gap-column" style="border-color:rgba(16,185,129,0.3);">
+                    <h4 style="color:var(--emerald-light);"><span>✓</span> Acquired Skills Matched</h4>
+                    <div id="gap_matched_container" class="tag-list"></div>
+                </div>
+
+                <div class="gap-column" style="border-color:rgba(244,63,94,0.3);">
+                    <h4 style="color:#FDA4AF;"><span>⚠️</span> Missing Skill Gaps (Required)</h4>
+                    <div id="gap_missing_container" class="tag-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: RESUME BUILDER -->
+    <div id="page-resume" class="tab-page">
+        <div class="section-header">
+            <span class="hero-tag" style="background:rgba(139,92,246,0.12); border-color:var(--primary); color:var(--primary-light);">ATS RESUME STUDIO</span>
+            <h1 class="section-title">📄 Resume Builder & Real-Time Live Preview</h1>
+            <p class="section-desc">Edit structured details on the left, watch live ATS resume render on the right, and export to PDF instantly.</p>
+        </div>
+
+        <div class="card-panel" style="padding:16px 24px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+                <span style="font-size:13px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px;">SELECT ATS VISUAL TEMPLATE:</span>
+                <div class="theme-selector-bar" style="margin-bottom:0;">
+                    <button class="theme-btn active" onclick="setTemplate('tpl-modern', this)">🎨 Modern Violet</button>
+                    <button class="theme-btn" onclick="setTemplate('tpl-tech', this)">⚡ Tech Minimalist</button>
+                </div>
+            </div>
+
+            <button onclick="window.print()" class="btn-primary">
+                <span>📥 Export Resume (PDF / Print)</span>
+            </button>
+        </div>
+
+        <div class="resume-builder-layout">
+            <div class="resume-form-pane">
+                <h3 style="font-size:18px; font-weight:700; color:white; margin-bottom:20px; border-bottom:1px solid var(--border-line); padding-bottom:10px;">📝 Structured Resume Input</h3>
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="res_name" value="Rasika Chinchalkar" oninput="updateResumePreview()">
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label>Email Address</label>
+                        <input type="email" id="res_email" value="rasika@tgpcet.ac.in" oninput="updateResumePreview()">
+                    </div>
+                    <div>
+                        <label>Phone Number</label>
+                        <input type="tel" id="res_phone" value="+91 98765 43210" oninput="updateResumePreview()">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label>Branch & Specialization</label>
+                        <input type="text" id="res_branch" value="B.Tech Computer Science & Engineering" oninput="updateResumePreview()">
+                    </div>
+                    <div>
+                        <label>College / Institution</label>
+                        <input type="text" id="res_college" value="TGPCET Nagpur" oninput="updateResumePreview()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Professional Bio / Summary</label>
+                    <textarea id="res_summary" rows="3" oninput="updateResumePreview()">Motivated CS student specializing in full-stack web application development, algorithm design, and modern database architectures.</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Technical Skills (Comma Separated)</label>
+                    <input type="text" id="res_skills" value="HTML5, CSS3, JavaScript, Python, Flask, SQL, Git, Data Structures" oninput="updateResumePreview()">
+                </div>
+
+                <div class="form-group">
+                    <label>Key Projects (One per line)</label>
+                    <textarea id="res_projects" rows="4" oninput="updateResumePreview()">CareerSync Web Application: AI-powered student career & skill management platform using Python Flask & SQL.
+Personal Developer Portfolio: Responsive developer portfolio built using HTML5, CSS3, and JavaScript animations.</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Certifications & Credentials</label>
+                    <textarea id="res_certs" rows="3" oninput="updateResumePreview()">AWS Certified Cloud Practitioner — Amazon Web Services (2025)
+Full Stack Web Development Certificate — Coursera (2024)</textarea>
+                </div>
+            </div>
+
+            <div class="resume-preview-wrapper">
+                <div class="card-title-bar" style="margin-bottom:12px;">
+                    <h3 style="font-size:16px; font-weight:700; color:white;">✨ Live ATS Preview</h3>
+                    <span style="font-size:12px; color:var(--emerald-light);">● Auto-Updating Live</span>
+                </div>
+
+                <div id="resume_paper" class="resume-paper tpl-modern">
+                    <div style="border-bottom: 2px solid #E2E8F0; padding-bottom:14px; margin-bottom:16px;">
+                        <h1 id="prev_name" style="margin:0;">Rasika Chinchalkar</h1>
+                        <div id="prev_contact" class="resume-header-contact" style="margin-top:6px;">
+                            rasika@tgpcet.ac.in | +91 98765 43210
+                        </div>
+                    </div>
+
+                    <div class="sec-title">Education</div>
+                    <div id="prev_edu" style="font-weight:600; color:#334155; margin-bottom:10px;">
+                        B.Tech Computer Science & Engineering — TGPCET Nagpur
+                    </div>
+
+                    <div class="sec-title">Professional Summary</div>
+                    <p id="prev_summary" style="color:#475569; font-size:13px;"></p>
+
+                    <div class="sec-title">Skills & Competencies</div>
+                    <div id="prev_skills_tags"></div>
+
+                    <div class="sec-title">Key Projects</div>
+                    <ul id="prev_projects_list" style="padding-left:18px; color:#334155; font-size:13px;"></ul>
+
+                    <div class="sec-title">Certifications & Achievements</div>
+                    <div id="prev_certs_list" style="color:#334155; font-size:13px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: CAREER GOAL TRACKER -->
+    <div id="page-goals" class="tab-page">
+        <div class="section-header">
+            <span class="hero-tag" style="background:rgba(236,72,153,0.12); border-color:var(--magenta); color:#F472B6;">TARGET ROLE ROADMAP</span>
+            <h1 class="section-title">🎯 Career Goal Tracker</h1>
+            <p class="section-desc">Select your target career role and track step-by-step milestone progress toward achieving placement success.</p>
+        </div>
+
+        <div class="card-panel" style="border-color:var(--border-glow); background:linear-gradient(135deg, rgba(20,27,54,0.9), rgba(30,40,78,0.7));">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                <div>
+                    <span style="font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">CAREERSYNC ROADMAP COMPLETION:</span>
+                    <h2 style="font-family:'Outfit',sans-serif; font-size:28px; font-weight:800; color:white; margin-top:4px;">
+                        Target Goal: <span style="color:var(--cyan-light);">Web Developer</span>
+                    </h2>
+                </div>
+                <div style="text-align:right;">
+                    <span id="overall_goal_progress_text" style="font-size:28px; font-weight:800; color:var(--emerald-light); font-family:'Outfit',sans-serif;">75% Completed</span>
+                </div>
+            </div>
+
+            <div class="progress-track" style="height:16px; margin-top:16px;">
+                <div id="overall_goal_progress_fill" class="progress-fill" style="width:75%;"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- FLOATING AI CAREER ADVISOR BOT -->
+<button class="ai-fab-btn" onclick="toggleAIChat()">
+    <span>🤖</span>
+    <span>AI Career Advisor</span>
+</button>
+
+<div class="ai-chat-drawer" id="ai_chat_drawer">
+    <div class="ai-drawer-header">
+        <h3>✨ CareerSync AI Advisor</h3>
+        <button onclick="toggleAIChat()" style="background:none; border:none; color:var(--text-muted); font-size:18px; cursor:pointer;">✕</button>
+    </div>
+    <div class="ai-chat-body" id="ai_chat_body">
+        <div class="chat-bubble bot">
+            👋 Hello! I am your <strong>CareerSync AI Advisor</strong>. How can I help you analyze skill gaps, polish your resume, or plan your TGPCET career journey today?
+        </div>
+    </div>
+    <div class="ai-chat-input-bar">
+        <input type="text" id="ai_chat_input" placeholder="Ask AI (e.g. 'How to become an AI engineer?')..." onkeypress="if(event.key==='Enter') sendAIMessage()">
+        <button class="btn-primary btn-sm" onclick="sendAIMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+const ROLE_DATA = {
+    "Web Developer": ["HTML", "CSS", "JavaScript", "Python", "Flask", "SQL", "Git", "REST APIs"],
+    "AI/ML Engineer": ["Python", "Machine Learning", "Data Structures", "Statistics", "NumPy", "Pandas", "PyTorch"],
+    "Data Analyst": ["Python", "SQL", "Excel", "Statistics", "Data Visualization", "PowerBI"],
+    "Software Engineer": ["Data Structures", "Algorithms", "Python", "Java", "Git", "OOP", "System Design"],
+    "Cloud & DevOps Engineer": ["Linux", "Git", "Docker", "AWS", "CI/CD Pipelines", "Python"],
+    "Mobile App Developer": ["Java", "Kotlin", "Flutter", "UI/UX", "Firebase"]
+};
+
+const USER_SKILLS = ["HTML", "CSS", "JavaScript", "Python", "Flask", "SQL", "Git"];
+
+function switchPage(pageId, btn) {
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn-tab').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(pageId).classList.add('active');
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (pageId === 'page-skills') runGapAnalysis();
+    if (pageId === 'page-resume') updateResumePreview();
+}
+
+function runGapAnalysis() {
+    const roleSelect = document.getElementById('role_analyzer_select');
+    if (!roleSelect) return;
+    const role = roleSelect.value;
+    const required = ROLE_DATA[role] || [];
+    
+    const matched = required.filter(r => USER_SKILLS.some(u => u.toLowerCase() === r.toLowerCase()));
+    const missing = required.filter(r => !USER_SKILLS.some(u => u.toLowerCase() === r.toLowerCase()));
+    const score = Math.round((matched.length / required.length) * 100);
+
+    document.getElementById('gap_match_score').innerText = score + '%';
+    const fill = document.getElementById('gap_progress_fill');
+    fill.style.width = score + '%';
+    fill.innerText = score + '% Matched';
+
+    const matchBox = document.getElementById('gap_matched_container');
+    matchBox.innerHTML = matched.map(m => `<span class="tag-pill matched">✓ ${m}</span>`).join('');
+
+    const missBox = document.getElementById('gap_missing_container');
+    missBox.innerHTML = missing.length 
+        ? missing.map(m => `<span class="tag-pill missing">⚠ ${m}</span>`).join('')
+        : '<span style="color:var(--emerald-light); font-weight:700;">🎉 Perfect Match! All required skills acquired.</span>';
+}
+
+function updateResumePreview() {
+    document.getElementById('prev_name').innerText = document.getElementById('res_name').value || 'Student Name';
+    document.getElementById('prev_contact').innerText = (document.getElementById('res_email').value || '') + ' | ' + (document.getElementById('res_phone').value || '');
+    document.getElementById('prev_edu').innerText = (document.getElementById('res_branch').value || '') + ' — ' + (document.getElementById('res_college').value || '');
+    document.getElementById('prev_summary').innerText = document.getElementById('res_summary').value || '';
+
+    const skills = (document.getElementById('res_skills').value || '').split(',');
+    document.getElementById('prev_skills_tags').innerHTML = skills.map(s => s.trim() ? `<span class="resume-pill-tag">${s.trim()}</span>` : '').join('');
+
+    const projects = (document.getElementById('res_projects').value || '').split('\n');
+    document.getElementById('prev_projects_list').innerHTML = projects.map(p => p.trim() ? `<li>${p.trim()}</li>` : '').join('');
+
+    const certs = (document.getElementById('res_certs').value || '').split('\n');
+    document.getElementById('prev_certs_list').innerHTML = certs.map(c => c.trim() ? `<p>• ${c.trim()}</p>` : '').join('');
+}
+
+function setTemplate(tplClass, btn) {
+    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('resume_paper').className = 'resume-paper ' + tplClass;
+}
+
+function toggleAIChat() {
+    document.getElementById('ai_chat_drawer').classList.toggle('open');
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('ai_chat_input');
+    const txt = input.value.trim();
+    if (!txt) return;
+
+    const chatBody = document.getElementById('ai_chat_body');
+    const uBubble = document.createElement('div');
+    uBubble.className = 'chat-bubble user';
+    uBubble.innerText = txt;
+    chatBody.appendChild(uBubble);
+    input.value = '';
+
+    setTimeout(() => {
+        const bBubble = document.createElement('div');
+        bBubble.className = 'chat-bubble bot';
+        bBubble.innerText = "💡 CareerSync AI: Focus on hands-on project building, tracking skill gaps against market demand, and updating your ATS resume regularly!";
+        chatBody.appendChild(bBubble);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }, 500);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    runGapAnalysis();
+    updateResumePreview();
+});
+</script>
+</body>
+</html>
